@@ -1,13 +1,14 @@
-# Official CBU rate bridge
+# CBU emergency snapshot
 
-The Oracle Dubai VM cannot establish a TCP connection to `cbu.uz`. A separate
-public GitHub repository contains only this script, the scheduled workflow and
-the three public CBU rates. GitHub Actions fetches the [official JSON API](https://cbu.uz/ru/arkhiv-kursov-valyut/veb-masteram/)
-every six hours. The bot first tries CBU directly, then downloads `rates.json`
-from the public repository. A copy older than 48 hours is rejected. The bot
-continues to reject purchases when its exchange rates are stale.
+This repository holds a public snapshot of the [Central Bank of Uzbekistan's
+official rates](https://cbu.uz/ru/arkhiv-kursov-valyut/veb-masteram/). It was
+seeded on 2 November 2026 because Oracle Dubai cannot reach `cbu.uz` directly.
 
-Place `fetch_rates.py` at the root of the public repository and
-`refresh-rates.yml` at `.github/workflows/refresh-rates.yml`. Set the VM's
-`CBU_MIRROR_URL` to the public raw GitHub URL. No bot code or secrets belong in
-the public repository.
+The bot now refreshes rates automatically from Trustbank's dated CBU column
+when the direct CBU API is unavailable. This repository is an emergency
+fallback only. Its JSON includes a fetch timestamp and the bot rejects it
+after 48 hours. The scheduled GitHub workflow was removed because this
+account's Actions jobs were blocked by GitHub billing.
+
+`fetch_rates.py` can refresh the file manually from a network that reaches the
+CBU. No credentials or bot data belong in this repository.
